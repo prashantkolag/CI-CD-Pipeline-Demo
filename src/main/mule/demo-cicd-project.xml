@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="dcb5242e-5a3f-43d1-a95c-23a7f0c851e6" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<flow name="demo-cicd-projectFlow" doc:id="9d95e30d-78fa-42ac-b794-a7bbab51ceff" >
+		<http:listener doc:name="Listener" doc:id="b7ac3541-5d2d-4efc-bb35-0f072c5af2be" config-ref="HTTP_Listener_config" path="/cicddemo"/>
+		<ee:transform doc:name="Transform Message" doc:id="4e5c13a6-332b-41c0-8ddc-1f23cb9e4ebb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Hello from CI/CD demo"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="d0ff3448-8e05-4878-ae25-58181a88ee94" />
+	</flow>
+</mule>
