@@ -43,8 +43,8 @@ jobs:
             <servers>
               <server>
                 <id>anypoint-exchange</id>
-                <username>${env.ANYPOINT_CLIENT_ID}</username>
-                <password>${env.ANYPOINT_CLIENT_SECRET}</password>
+                <username>${ANYPOINT_CLIENT_ID}</username>
+                <password>${ANYPOINT_CLIENT_SECRET}</password>
               </server>
             </servers>
           </settings>
