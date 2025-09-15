@@ -12,6 +12,8 @@ jobs:
     env:
       ANYPOINT_CLIENT_ID: ${{ secrets.ANYPOINT_CLIENT_ID }}
       ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
+      ANYPOINT_ORG_ID: ${{ secrets.ANYPOINT_ORG_ID }}
+      ANYPOINT_ENV_ID: ${{ secrets.ANYPOINT_ENV_ID }}
 
     steps:
       - name: Checkout repository
