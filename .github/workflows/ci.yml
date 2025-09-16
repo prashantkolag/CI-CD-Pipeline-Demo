@@ -1,4 +1,4 @@
-name: CI - Build Mule App (and publish to Exchange if secrets exist)
+name: CI - Build & Publish Mule App to Exchange
 
 on:
   push:
@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # these environment variables are available to steps
     env:
       ANYPOINT_CLIENT_ID: ${{ secrets.ANYPOINT_CLIENT_ID }}
       ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
@@ -17,18 +16,18 @@ jobs:
       ANYPOINT_ENV_ID: ${{ secrets.ANYPOINT_ENV_ID }}
 
     steps:
-      # 1) checkout code
+      # 1) Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2) set up JDK 17
+      # 2) Set up JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      # 3) cache maven repo to speed up builds
+      # 3) Cache Maven repo
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
@@ -36,7 +35,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # 4) create Maven settings.xml on the runner (so deploy to Exchange can auth)
+      # 4) Create Maven settings.xml
       - name: Write Maven settings.xml
         run: |
           mkdir -p ~/.m2
@@ -52,16 +51,9 @@ jobs:
           </settings>
           EOF
 
-      # 5) build (and publish to Exchange if secrets are present)
-      - name: Build & (optionally) Publish to Exchange
+      # 5) Build & Publish to Exchange
+      - name: Build & Publish to Exchange
         run: |
-          # if secrets are missing, just build (package) without deploy
-          if [ -z "${{ secrets.ANYPOINT_CLIENT_ID }}" ] || [ -z "${{ secrets.ANYPOINT_CLIENT_SECRET }}" ]; then
-            echo "No Exchange credentials found; running build only."
-            mvn -B clean package -DskipTests
-          else
-            echo "Exchange credentials found; running build + deploy."
-            mvn -B clean deploy -DskipTests \
-              -Danypoint.org=${{ secrets.ANYPOINT_ORG_ID }} \
-              -Danypoint.env=${{ secrets.ANYPOINT_ENV_ID }
-          fi
+          mvn -B clean deploy -DskipTests \
+            -Danypoint.org=${{ secrets.ANYPOINT_ORG_ID }} \
+            -Danypoint.env=${{ secrets.ANYPOINT_ENV_ID }}
