@@ -61,5 +61,7 @@ jobs:
             mvn -B clean package -DskipTests
           else
             echo "Exchange credentials found; running build + deploy."
-            mvn -B clean deploy -DskipTests
+            mvn -B clean deploy -DskipTests \
+              -Danypoint.org=${{ secrets.ANYPOINT_ORG_ID }} \
+              -Danypoint.env=${{ secrets.ANYPOINT_ENV_ID }
           fi
