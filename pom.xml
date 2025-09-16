@@ -18,7 +18,6 @@
 
         <app.runtime>4.9.6</app.runtime>
         <mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
-        <exchange.plugin.version>0.0.23</exchange.plugin.version>
     </properties>
 
     <build>
@@ -36,28 +35,6 @@
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
-            </plugin>
-
-            <!-- Exchange Plugin (for publishing to Exchange) -->
-            <plugin>
-                <groupId>org.mule.tools.maven</groupId>
-                <artifactId>exchange-mule-maven-plugin</artifactId>
-                <version>${exchange.plugin.version}</version>
-                <configuration>
-                    <classifier>mule-application</classifier>
-                    <repository>
-                        <id>anypoint-exchange</id>
-                        <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${anypoint.org}/environments/${anypoint.env}/maven</url>
-                    </repository>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>deploy</phase> <!-- ✅ run after package -->
-                        <goals>
-                            <goal>exchange-pre-deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -93,4 +70,22 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginReposito
+        <pluginRepository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases Repository</name>
+            <layout>default</layout>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>anypoint-exchange</id>
+            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${anypoint.org}/environments/${anypoint.env}/maven</url>
+        </repository>
+    </distributionManagement>
+
+</project>
