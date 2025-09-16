@@ -52,6 +52,7 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <phase>deploy</phase> <!-- ✅ run after package -->
                         <goals>
                             <goal>exchange-pre-deploy</goal>
                         </goals>
@@ -92,22 +93,4 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
-            <id>mulesoft-releases</id>
-            <name>MuleSoft Releases Repository</name>
-            <layout>default</layout>
-            <url>https://repository.mulesoft.org/releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <distributionManagement>
-        <repository>
-            <id>anypoint-exchange</id>
-            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${anypoint.org}/environments/${anypoint.env}/maven</url>
-        </repository>
-    </distributionManagement>
-
-</project>
+        <pluginReposito
