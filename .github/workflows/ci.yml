@@ -35,7 +35,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # 4) Create Maven settings.xml
+      # 4) Create Maven settings.xml with Exchange creds
       - name: Write Maven settings.xml
         run: |
           mkdir -p ~/.m2
@@ -44,16 +44,4 @@ jobs:
             <servers>
               <server>
                 <id>anypoint-exchange</id>
-                <username>${ANYPOINT_CLIENT_ID}</username>
-                <password>${ANYPOINT_CLIENT_SECRET}</password>
-              </server>
-            </servers>
-          </settings>
-          EOF
-
-      # 5) Build & Publish to Exchange
-      - name: Build & Publish to Exchange
-        run: |
-          mvn -B clean deploy -DskipTests \
-            -Danypoint.org=${{ secrets.ANYPOINT_ORG_ID }} \
-            -Danypoint.env=${{ secrets.ANYPOINT_ENV_ID }}
+                <username>${env.ANYPOINT_CLIENT_ID}</usern
