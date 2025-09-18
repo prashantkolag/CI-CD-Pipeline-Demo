@@ -9,12 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      ANYPOINT_CLIENT_ID: ${{ secrets.ANYPOINT_CLIENT_ID }}
-      ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
-      ANYPOINT_ORG_ID: ${{ secrets.ANYPOINT_ORG_ID }}
-      ANYPOINT_ENV_ID: ${{ secrets.ANYPOINT_ENV_ID }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,8 +34,8 @@ jobs:
             <servers>
               <server>
                 <id>anypoint-exchange</id>
-                <username>${env.ANYPOINT_CLIENT_ID}</username>
-                <password>${env.ANYPOINT_CLIENT_SECRET}</password>
+                <username>~~~Client~~~</username>
+                <password>${{ secrets.ANYPOINT_CLIENT_ID }}~?~${{ secrets.ANYPOINT_CLIENT_SECRET }}</password>
               </server>
             </servers>
           </settings>
