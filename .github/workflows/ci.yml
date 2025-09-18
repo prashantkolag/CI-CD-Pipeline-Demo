@@ -43,6 +43,6 @@ jobs:
 
       - name: Build & Publish to Exchange
         run: |
-          mvn -B clean deploy -e -x -DskipTests \
+          mvn -B clean deploy -e -X -U -DskipTests \
             -Danypoint.org=${{ secrets.ANYPOINT_ORG_ID }} \
             -Danypoint.env=${{ secrets.ANYPOINT_ENV_ID }}
